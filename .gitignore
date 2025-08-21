@@ -1,3 +1,6 @@
 
 # files
 .env
+
+# directories
+node_modeules/
