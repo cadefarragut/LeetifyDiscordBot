@@ -15,8 +15,27 @@ if (!token || !client_id || !guild_id){
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once('clientReady', () => {
-	console.log('Ready as ${c.user.tag}');
+	console.log(`Ready as ${client.user.tag}`);
 });
+
+
+client.on('interactionCreate', async (i) => {
+	if (!i.isChatInputCommand()) return;
+	try{
+		if (i.commandName == 'lastmatch'){
+			await i.deferReply();
+			await i.editReply('Fetching previous match..');
+			return;
+		}
+
+		await i.reply({ content: `Command not implemented yet.`, ephemera: true });
+
+	} catch(err){
+		console.error('Handled error: ', err);
+	}
+})
+
+
 
 client.on('error', (err) => console.error('Client error', err));
 client.on('shardError', (err) => console.error('Shared error:', err));
@@ -32,7 +51,4 @@ process.on('uncaughtException', (err) => console.error('Uncaught Exception:', er
     process.exit(1);
   }
 })
-
-
-
-	();
+();
