@@ -1,6 +1,8 @@
 import { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import 'dotenv/config';
 import * as lastmatch from './commands/lastmatch.ts';
+import * as profile from './commands/profile.ts';
+import * as monthstats from './commands/monthstats.ts';
 
 // Create bot processes and make sure they are not missing
 const token = process.env.DISCORD_TOKEN;
@@ -21,6 +23,8 @@ client.once('clientReady', () => {
 client.on('interactionCreate', async (i) => {
 	if (!i.isChatInputCommand()) return;
 	if (i.commandName == lastmatch.data.name) return lastmatch.execute(i);
+	if (i.commandName == profile.data.name) return profile.execute(i);
+	if (i.commandName == monthstats.data.name) return monthstats.execute(i);
 });
 
 (async () => {
