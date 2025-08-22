@@ -7,6 +7,6 @@ export async function fetchRecentMatches(steamId64: string, limit=1){
 	if (process.env.LEETIFY_API_TOKEN) headers.Authorization = `Bearer ${process.env.LEETIFY_API_TOKEN}`;
 	
 	const res = await fetch(url, { headers, signal: AbortSignal.timeout(10_000) });
-	if( !res.ok ) throw now Error(`Leetify ${res.status}`);
+	if( !res.ok ) throw new Error(`Leetify ${res.status}`);
 	return res.json();
 }

@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import 'dotenv/config';
+import * as lastmatch from './commands/lastmatch.ts';
 
 // Create bot processes and make sure they are not missing
 const token = process.env.DISCORD_TOKEN;
@@ -11,36 +12,16 @@ if (!token || !client_id || !guild_id){
 	process.exit(1);
 }
 
-
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once('clientReady', () => {
 	console.log(`Ready as ${client.user.tag}`);
 });
 
-
 client.on('interactionCreate', async (i) => {
 	if (!i.isChatInputCommand()) return;
-	try{
-		if (i.commandName == 'lastmatch'){
-			await i.deferReply();
-			await i.editReply('Fetching previous match..');
-			return;
-		}
-
-		await i.reply({ content: `Command not implemented yet.`, ephemera: true });
-
-	} catch(err){
-		console.error('Handled error: ', err);
-	}
-})
-
-
-
-client.on('error', (err) => console.error('Client error', err));
-client.on('shardError', (err) => console.error('Shared error:', err));
-process.on('unhandledRejection', (reason) => console.error('Unhandled Rejection:', reason));
-process.on('uncaughtException', (err) => console.error('Uncaught Exception:', err));
+	if (i.commandName == lastmatch.data.name) return lastmatch.execute(i);
+});
 
 (async () => {
   try {
