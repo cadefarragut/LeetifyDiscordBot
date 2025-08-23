@@ -18,3 +18,4 @@ export function toMonthStats(m: any[]): MonthStats {
 	return {m: matches, kills, deaths, kdr };
 }
 
+

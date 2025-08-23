@@ -3,7 +3,7 @@ import 'dotenv/config';
 import * as lastmatch from './commands/lastmatch.ts';
 import * as profile from './commands/profile.ts';
 import * as monthstats from './commands/monthstats.ts';
-
+import * as add from './commands/add.ts';
 // Create bot processes and make sure they are not missing
 const token = process.env.DISCORD_TOKEN;
 const client_id = process.env.DISCORD_CLIENT_ID;
@@ -25,6 +25,7 @@ client.on('interactionCreate', async (i) => {
 	if (i.commandName == lastmatch.data.name) return lastmatch.execute(i);
 	if (i.commandName == profile.data.name) return profile.execute(i);
 	if (i.commandName == monthstats.data.name) return monthstats.execute(i);
+	if (i.commandName == add.data.name) return add.execute(i);
 });
 
 (async () => {
