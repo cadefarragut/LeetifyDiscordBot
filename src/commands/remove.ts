@@ -1,9 +1,9 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
-import { addSteamId } from '../core/storage.ts';
+import { removeSteamId } from '../core/storage.ts';
 
 export const data = new SlashCommandBuilder()
-	.setName("add")
-	.setDescription("add a SteamID to the Leetify leaderboard")
+	.setName("remove")
+	.setDescription("remove a SteamID to the Leetify leaderboard")
 	.setDMPermission(false)
 	.addStringOption(o => 
 	o.setName("steamid64")
@@ -26,14 +26,14 @@ export async function execute(i : ChatInputCommandInteraction) {
 			await i.editReply("Please provide a valid 17-digit Steam ID.");
 			return;
 		}	
-		const ok = await addSteamId(i.guildId, steamId64);
+		const ok = await removeSteamId(i.guildId, steamId64);
 		await i.editReply(ok 
-			? `Added ${steamId64} to this server's leaderboard.`
-			: `${steamId64} is already on this server's leaderboard.`);
+			? `removed ${steamId64} to this server's leaderboard.`
+			: `${steamId64} is not on this server's leaderboard.`);
 
 
 	} catch (err) {
-		console.error('Unable to add SteamID to the Leaderboard.', err);
+		console.error('Unable to remove SteamID to the Leaderboard.', err);
 	}
 	return;
 

@@ -6,9 +6,10 @@ import { pathToFileURL } from "node:url";
 
 const token = process.env.DISCORD_TOKEN;
 const clientID = process.env.DISCORD_CLIENT_ID;
-const guildID = process.env.DISCORD_GUILD_ID;
+const guildIDs = (process.env.DISCORD_GUILD_ID || "")
+		.split(",").map(s => s.trim()).filter(Boolean);
 
-if ( !token || !clientID || !guildID){
+if ( !token || !clientID || !guildIDs){
 	console.error("Missing DISCORD_TOKEN/CLIENT_ID/GUILD_ID in .env");
 	process.exit(1);
 }
@@ -39,8 +40,13 @@ async function	loadCommandsFrom(dir: string){
 
 	const rest = new REST({version : "10"}).setToken(token);
 	console.log("Registering guild commands...");
-	await rest.put(Routes.applicationGuildCommands(clientID, guildID), { body });
-	console.log(`Registered ${body.length} command(s) to guild ${guildID}`);
+	for ( const gid of guildIDs ) {
+		await rest.put(Routes.applicationGuildCommands(clientID, gid), { body });
+		console.log(`Registered ${body.length} command(s) to guild ${gid}`);
+	}
+
+//	await rest.put(Routes.applicationGuildCommands(clientID, guildID), { body });
+//	console.log(`Registered ${body.length} command(s) to guild ${guildID}`);
 })().catch(err => {
 		console.error("Failed to Register Command(s): ", err);
 		process.exit(1);

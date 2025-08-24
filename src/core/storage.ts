@@ -21,7 +21,7 @@ async function writeStore(store: Store){
 	await fs.writeFile(FILE, JSON.stringify(store, null, 2), "utf8");
 }
 
-export async function addSteamIds(guildId: string, steamId64: string): Promise<boolean> {
+export async function addSteamId(guildId: string, steamId64: string): Promise<boolean> {
 	const store = await readStore();
 	store[guildId] ??= [];
 	const list = store[guildId];

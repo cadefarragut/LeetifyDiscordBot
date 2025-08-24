@@ -14,6 +14,7 @@ export interface MonthStats {
 
 export interface LeaderBoardEntry {
 	steamId64: string;
+	username: string ;
 	stats : MonthStats;
 }
 
