@@ -1,5 +1,4 @@
-import type { PreviousMatchStats, MonthStats } from "../types/domain.ts";
-
+import type { PreviousMatchStats, MonthStats, Leaderboard } from "../types/domain.ts";
 export function buildOutput(m: PreviousMatchStats): string{
 	const kdrText = m.kdr == Infinity ? "∞ You are the Goat" : m.kdr;
 	return [
@@ -18,4 +17,14 @@ export function buildMonthStats(m: MonthStats): string {
     `Deaths: ${m.deaths}`,
     `K/D: ${m.kdr}`
   ].join("\n");
+}
+
+
+export function buildLeaderboardText(board: Leaderboard): string {
+  if (!board.entries.length) return "No players added for this server.";
+  const lines = board.entries.map((e, i) =>
+    `**${i+1}.** \`${e.steamId64}\` — Matches: ${e.stats.matches} • Kills: ${e.stats.kills} • ` +
+    `Deaths: ${e.stats.deaths} • K/D: ${e.stats.kdr}`
+  );
+  return `UTC Month Leaderboard (${board.monthISO})\n` + lines.join("\n");
 }
