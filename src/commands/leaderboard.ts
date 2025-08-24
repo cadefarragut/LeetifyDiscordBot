@@ -1,10 +1,9 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 import { listSteamIds } from "../core/storage.ts";
-import { fetchRecentMatches } from '../leetify/client.ts';
+import { fetchRecentMatches, fetchProfile } from '../leetify/client.ts';
 import { currentMonthWindow } from '../core/time.ts';
 import { toMonthStatsFor } from '../leetify/transforms.ts';
 import { buildLeaderboardText } from '../presenter/matchCard.ts';
-
 export const data = new SlashCommandBuilder()
 	.setName("leaderboard")
 	.setDescription("Diplay the Discord's Leetify Leaderboard")
@@ -30,15 +29,17 @@ export async function execute(i: ChatInputCommandInteraction) {
 	const entries: LeaderboardEntry[] = [];
 
 	for ( const sid of ids ){
-		try{
-			const raw = await fetchRecentMatches(sid, 100);
+		try{	
+			const raw = await fetchRecentMatches(sid, 200);
+			const profile = await fetchProfile(sid, 1);
+			const name = profile.name;
 			const filtered: any[] = [];
 			for (const x of raw ){
 				const t = Date.parse(x && x.finished_at);
 				if(Number.isFinite(t) && t >= start.getTime() && t <= end.getTime()) filtered.push(x);
 			}
 			const stats = toMonthStatsFor(filtered, sid);
-			entries.push({ steamId64: sid, stats });
+			entries.push({ name, steamId64: sid, stats });
 
 		} catch (err) {
 			console.error('Leaderboard Fetch Error for: ', sid, err);

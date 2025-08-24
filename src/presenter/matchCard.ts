@@ -23,7 +23,7 @@ export function buildMonthStats(m: MonthStats): string {
 export function buildLeaderboardText(board: Leaderboard): string {
   if (!board.entries.length) return "No players added for this server.";
   const lines = board.entries.map((e, i) =>
-    `**${i+1}.** \`${e.steamId64}\` — Matches: ${e.stats.matches} • Kills: ${e.stats.kills} • ` +
+    `**${i+1}.** \`${e.name}\` — Matches: ${e.stats.matches} • Kills: ${e.stats.kills} • ` +
     `Deaths: ${e.stats.deaths} • K/D: ${e.stats.kdr}`
   );
   return `UTC Month Leaderboard (${board.monthISO})\n` + lines.join("\n");
