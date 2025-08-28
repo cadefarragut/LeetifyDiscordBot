@@ -15,12 +15,6 @@ export interface MonthStats {
 	username: string ;
 }
 
-/*export interface LeaderBoardEntry {
-	steamId64: string;
-	username: string ;
-	stats : MonthStats;
-} */
-
 export interface Leaderboard {
 	guildId: string;
 	monthISO: string;

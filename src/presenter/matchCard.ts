@@ -1,4 +1,6 @@
 import type { PreviousMatchStats, MonthStats, Leaderboard } from "../types/domain.ts";
+import  { EmbedBuilder } from 'discord.js';
+
 export function buildOutput(m: PreviousMatchStats): string{
 	const kdrText = m.kdr == Infinity ? "∞ You are the Goat" : m.kdr;
 	return [
@@ -27,4 +29,19 @@ export function buildLeaderboardText(board: Leaderboard): string {
     `Deaths: ${e.stats.deaths} • K/D: ${e.stats.kdr}`
   );
   return `UTC Month Leaderboard (${board.monthISO})\n` + lines.join("\n");
+}
+
+ export function testEmbed(board: Leaderboard): EmbedBuilder {
+	const embed = new EmbedBuilder()
+		.setColor(0x0099FF)
+		.setTitle(`${board.monthISO} Leaderboard`);
+	
+	const prof = board.entries.map((e, i) =>
+		embed.addFields(
+			{name: `${e.name}`, value: `Kills: ${e.stats.kills}, Deaths: ${e.stats.deaths}, K/D: ${e.stats.kdr}`}
+		)
+
+	);
+
+	return embed;
 }

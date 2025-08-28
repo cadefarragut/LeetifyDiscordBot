@@ -3,7 +3,8 @@ import { listSteamIds } from "../core/storage.ts";
 import { fetchRecentMatches, fetchProfile } from '../leetify/client.ts';
 import { currentMonthWindow } from '../core/time.ts';
 import { toMonthStatsFor } from '../leetify/transforms.ts';
-import { buildLeaderboardText } from '../presenter/matchCard.ts';
+import { buildLeaderboardText, testEmbed} from '../presenter/matchCard.ts';
+
 export const data = new SlashCommandBuilder()
 	.setName("leaderboard")
 	.setDescription("Diplay the Discord's Leetify Leaderboard")
@@ -28,7 +29,7 @@ export async function execute(i: ChatInputCommandInteraction) {
 
 	const monthISO = `${start.getUTCFullYear()}-${String(start.getUTCMonth()+1).padStart(2,"0")}`;
 
-	const entries: Leaderboard[] = [];
+	const entries: MonthStats[] = [];
 
 	for ( const sid of ids ){
 		try{	
@@ -36,11 +37,12 @@ export async function execute(i: ChatInputCommandInteraction) {
 			const profile = await fetchProfile(sid, 1);
 			const name = profile.name;
 			const filtered: any[] = [];
-			for (const x of raw ){
-				const t = Date.parse(x && x.finished_at);
+			for (const x of raw ){ // for each match 
+				const t = Date.parse(x && x.finished_at); // t ==  time of which match ended (If value is present)
+				//if t is a valid time in between the start and end of the current month, push onto filtered stack.
 				if(Number.isFinite(t) && t >= start.getTime() && t <= end.getTime()) filtered.push(x);
 			}
-			const stats = toMonthStatsFor(filtered, sid);
+			const stats = toMonthStatsFor(filtered); // for all the matches in the month, get their stats
 			entries.push({ name, steamId64: sid, stats });
 
 		} catch (err) {
@@ -48,7 +50,9 @@ export async function execute(i: ChatInputCommandInteraction) {
 			entries.push({ steamId64: sid, stats: { matches: 0, kills: 0, deaths: 0, kdr: 0 } });
 		}
 	}
-	entries.sort((a, b) => b.stats.kills - a.stats.kills);
+	entries.sort((a, b) => b.stats.kills - a.stats.kills); // sort by kills
 	const board: Leaderboard = { guildId: i.guildId, monthISO, entries};
-	await i.editReply(buildLeaderboardText(board));
+	console.log(board.entries);
+//	await i.editReply(buildLeaderboardText(board));
+	await i.editReply({ embeds: [testEmbed(board)] });
 }
