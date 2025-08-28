@@ -10,16 +10,19 @@ export interface MonthStats {
 	kdr: number;
 	matches: number;
 	rank: number;
+
+	steamId64: string;
+	username: string ;
 }
 
-export interface LeaderBoardEntry {
+/*export interface LeaderBoardEntry {
 	steamId64: string;
 	username: string ;
 	stats : MonthStats;
-}
+} */
 
 export interface Leaderboard {
 	guildId: string;
 	monthISO: string;
-	entries: LeaderBoardEntry[];
+	entries: MonthStats[];
 }

@@ -13,8 +13,9 @@ export const data = new SlashCommandBuilder()
 export async function execute(i: ChatInputCommandInteraction) {
 	if (!i.guildId ) {
 		await i.reply({ content : "This command can only be used n a server.", ephemeral: true });
-		return ;	
-	}	
+		return ;
+	}
+
 	await i.deferReply();
 	const ids = await listSteamIds(i.guildId);
 
@@ -24,6 +25,7 @@ export async function execute(i: ChatInputCommandInteraction) {
 	}
 
 	const { start, end } = currentMonthWindow();
+
 	const monthISO = `${start.getUTCFullYear()}-${String(start.getUTCMonth()+1).padStart(2,"0")}`;
 
 	const entries: LeaderboardEntry[] = [];

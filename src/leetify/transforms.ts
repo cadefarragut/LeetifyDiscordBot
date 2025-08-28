@@ -19,10 +19,11 @@ export function toMonthStats(m: any[]): MonthStats {
 }
 
 export function toMonthStatsFor(m: any[], steamId64: string): MonthStats {
+
   let matches = 0, kills = 0, deaths = 0;
 
   for (const x of m) {
-    if (!x || !x.stats) continue;
+    /*if (!x || !x.stats) continue;
 
     // pick the correct player's stats object
     let idx = -1;
@@ -45,6 +46,7 @@ export function toMonthStatsFor(m: any[], steamId64: string): MonthStats {
       deaths += Number(d);
       matches++;
     } else if (typeof x.stats === "object") {
+*/
       const ps = x.stats;
       const k = ps.total_kills  != null ? ps.total_kills  : (ps.kills  != null ? ps.kills  : 0);
       const d = ps.total_deaths != null ? ps.total_deaths : (ps.deaths != null ? ps.deaths : 0);
@@ -52,7 +54,7 @@ export function toMonthStatsFor(m: any[], steamId64: string): MonthStats {
       kills  += Number(k);
       deaths += Number(d);
       matches++;
-    }
+ //   }
   }
 
   const kdr = deaths === 0 ? Infinity : (kills / deaths).toFixed(2);
