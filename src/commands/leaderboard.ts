@@ -28,7 +28,7 @@ export async function execute(i: ChatInputCommandInteraction) {
 
 	const monthISO = `${start.getUTCFullYear()}-${String(start.getUTCMonth()+1).padStart(2,"0")}`;
 
-	const entries: LeaderboardEntry[] = [];
+	const entries: Leaderboard[] = [];
 
 	for ( const sid of ids ){
 		try{	

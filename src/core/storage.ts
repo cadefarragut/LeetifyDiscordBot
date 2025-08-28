@@ -29,7 +29,7 @@ export async function addSteamId(guildId: string, steamId64: string): Promise<bo
 	list.push(steamId64);
 	await writeStore(store);
 	return true;
-} 
+}
 
 export async function listSteamIds(guildId: string): Promise<string[]> {
 	const store = await readStore();
