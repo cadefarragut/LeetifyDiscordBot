@@ -17,7 +17,6 @@ https://discord.com/oauth2/authorize?client_id=1408199082505408542&permissions=1
 
 ## 🧰 Commands (examples)
 
-_You can adjust names/parameters here to match your codebase._
 
 - `/leaderboard` — Display the monthly leaderboard for tracked members.
 - `/add <steamId>` — Start tracking a player.
