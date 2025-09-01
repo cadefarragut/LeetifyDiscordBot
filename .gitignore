@@ -1,6 +1,6 @@
 
 # files
-.env
+.env.*
 
 # directories
 node_modules/
