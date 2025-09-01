@@ -1,9 +1,10 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, AttachmentBuilder } from "discord.js";
 import { listSteamIds } from "../core/storage.ts";
 import { fetchRecentMatches, fetchProfile } from '../leetify/client.ts';
 import { currentMonthWindow } from '../core/time.ts';
 import { toMonthStatsFor } from '../leetify/transforms.ts';
-import { buildLeaderboardText, testEmbed} from '../presenter/matchCard.ts';
+import { buildLeaderboardText, testEmbed, renderLeaderboard} from '../presenter/matchCard.ts';
+
 
 export const data = new SlashCommandBuilder()
 	.setName("leaderboard")
@@ -55,4 +56,10 @@ export async function execute(i: ChatInputCommandInteraction) {
 	console.log(board.entries);
 //	await i.editReply(buildLeaderboardText(board));
 	await i.editReply({ embeds: [testEmbed(board)] });
+	
+//	const buf = await renderLeaderboard(board, 10);
+//	const file = new AttachmentBuilder(buf, { name: "leaderboard.png" });
+//	await i.editReply({ files: [file] });
+
+	return;
 }

@@ -46,3 +46,32 @@ export async function removeSteamId(guildId: string, steamId64: string): Promise
 	await writeStore(store);
 	return true;
 }
+
+
+export async function addGuild(guildId: string): Promise<boolean> {
+	const store = await readStore();
+	if (store[guildId]) return false; 
+	store[guildId] = []; 
+	await writeStore(store);
+	console.log(`Added guild ${guildId} to leaderboard storage`);
+	return true;
+}
+
+export async function removeGuild(guildId: string): Promise<boolean> {
+	const store = await readStore();
+	if (!store[guildId]) return false; 
+	delete store[guildId];
+	await writeStore(store);
+	console.log(`Removed guild ${guildId} from leaderboard storage`);
+	return true;
+}
+
+export async function listGuilds(): Promise<string[]> {
+	const store = await readStore();
+	return Object.keys(store);
+}
+
+export async function isGuildAuthorized(guildId: string): Promise<boolean> {
+	const store = await readStore();
+	return guildId in store;
+}

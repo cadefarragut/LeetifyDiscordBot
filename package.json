@@ -4,6 +4,7 @@
   "description": "Discord bot that keeps track and displays previous CS2 match stats for members in a discord channel",
   "main": "index.js",
   "scripts": {
+	"start": "tsx src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx src/index.ts",
 	"register": "tsx src/register.ts"
